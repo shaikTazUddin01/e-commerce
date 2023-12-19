@@ -8,7 +8,10 @@ const MainLayout = () => {
         <div className='max-w-[1440px] mx-auto'>
             <PageHeader></PageHeader>
             <NavBar></NavBar>
+            <div className='px-10'>
+
             <Outlet></Outlet>
+            </div>
         </div>
     );
 };
