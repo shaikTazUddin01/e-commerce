@@ -7,6 +7,7 @@ const NavBar = () => {
         <li><NavLink to={'/login'}>log in</NavLink></li>
         <li><NavLink to={'/signup'}>sign up</NavLink></li>
         <li><NavLink to={'/admin/createcategory'}>create category</NavLink></li>
+        <li><NavLink to={'/admin/manageCategory'}>Manage category</NavLink></li>
     </>
     return (
         <div>

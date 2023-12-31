@@ -1,6 +1,6 @@
-import Banner from '../../Component/Home/Banner/Banner';
-import Categories from '../../Component/Home/Categories/Categories';
-import Channels from '../../Component/Home/channels/Channels';
+import Banner from '../../../Component/Home/Banner/Banner';
+import Categories from '../../../Component/Home/Categories/Categories';
+import Channels from '../../../Component/Home/channels/Channels';
 
 const Home = () => {
     return (

@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import bannerImg from '../../../assets/banner/banner.jpg.webp'
+import useCategory from '../../../Hooks/category/useCategory';
 
 const Banner = () => {
     const [openDepartment, setOpenDepartment] = useState(false);
-    console.log(openDepartment)
+    const [categories]=useCategory()
+    console.log(categories)
+    // console.log(openDepartment)
     // const handleOpen=(value)=>{
     //     console.log(value)
     //     setOpenDepartment(value)
     // }
     return (
-        <div className='flex h-[500px] border'>
+        <div className='flex min-h-[500px] border'>
             <div className=' w-[20%] bg-white'>
                 <h1 className='flex justify-between items-center px-5 py-2'>
                     <span>All Department</span>
@@ -34,21 +37,9 @@ const Banner = () => {
 
                 <div className='pl-5'>
                     <ul className=''>
-                        <li className='mb-1'>laptop</li>
-                        <li className='mb-1'>Mobile</li>
-                        <div className="dropdown dropdown-right dropdown-hover">
-                            <div tabIndex={0} role="" className="mb-1">Monitor</div>
-                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a>Item 1</a></li>
-                                <li><a>Item 2</a></li>
-                            </ul>
-                        </div>
-                        <li className='mb-1'>HeadPhone</li>
-                        <li className='mb-1'>HeadPhone</li>
-                        <li className='mb-1'>HeadPhone</li>
-                        <li className='mb-1'>HeadPhone</li>
-                        <li className='mb-1'>HeadPhone</li>
-                        <li className='mb-1'>HeadPhone</li>
+                        {categories?.map(category=><li key={category?._id} className='mb-1'>{category?.categoryName}</li>
+                            )}
+                        
                     </ul>
                 </div>
             </div>
