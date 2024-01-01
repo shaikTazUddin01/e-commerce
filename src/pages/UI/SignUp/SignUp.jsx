@@ -1,17 +1,24 @@
 
 import axios from "axios";
 import { useForm } from "react-hook-form"
+import useAuth from "../../../Hooks/auth/useAuth";
+import Swal from "sweetalert2";
+import { updateProfile } from "firebase/auth";
 
 const SignUp = () => {
+    const { signUp, auth } = useAuth()
+    // define imgbb hostiong key
     const imgHostionKey = import.meta.env.VITE_IMAGE_HOSTING_KEY
-    console.log(imgHostionKey)
+    // define hosting api
     const imgHostionApi = `https://api.imgbb.com/1/upload?key=${imgHostionKey}`
+    //react hook form
     const {
         register,
-        handleSubmit
+        handleSubmit,
+        reset,
     } = useForm()
 
-
+    //from submit
     const onSubmit = async (data) => {
         const imageFile = { image: data.image[0] }
         // console.log(imageurl)
@@ -21,7 +28,61 @@ const SignUp = () => {
                 "content-type": "multipart/form-data",
             }
         })
-        console.log(imgurl?.data?.data?.url_viewer)
+        // console.log(imgurl?.data?.data?.url_viewer)
+        //get signup info
+        const userName = data?.name;
+        const userEmail = data?.email;
+        const userPass = data?.password;
+        const userImg = imgurl?.data?.data?.url_viewer;
+        //signup userr
+        signUp(userEmail, userPass)
+            .then(res => {
+                //update user profile
+                console.log(res)
+                updateProfile(auth.currentUser, {
+                    displayName: `${userName}`, photoURL: `${userImg}`
+                })
+                    .then(res => {
+                        //reset from
+                        // console.log(res)
+                        reset({
+                            name: null,
+                            email: null,
+                            password: null,
+                            image: null
+
+                        })
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "SuccessFully you create a account",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }).catch(error => {
+                        const errorMessage = error.message;
+                        // console.log(errorMessage)
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: `${errorMessage}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    })
+
+            })
+            .catch(error => {
+                const errorMessage = error.message;
+                // console.log(errorMessage)
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: `${errorMessage}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
     }
     return (
         <div>
