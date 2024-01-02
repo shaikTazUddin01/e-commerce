@@ -71,7 +71,7 @@ const Login = () => {
             <div className=" flex justify-center my-20">
                 {/* <div className=""> */}
 
-                <div className="card w-full max-w-md shadow-2xl shadow-black border border-yellow-300">
+                <div className="card w-full max-w-sm shadow-2xl shadow-black border border-yellow-300">
 
                     <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
                         <h1 className="text-3xl text-center font-bold">Sign In</h1>
@@ -91,8 +91,13 @@ const Login = () => {
                         <div className="form-control mt-6">
                             <button className="btn btn-primary" type="submit">sign in</button>
                         </div>
-                        <div onClick={handleGoogleLogin}>
-                            <FcGoogle></FcGoogle>
+                        <div className='flex justify-center'>
+                        <div className="divider divider-neutral w-[50%] text-xl">OR</div>
+                        </div>
+                        <div onClick={handleGoogleLogin} className='border flex py-2 gap-2 justify-center items-center rounded-md'>
+                           <span className='text-2xl'><FcGoogle></FcGoogle></span>
+                           <span>Sign In With Google</span>
+                           {/* <p>Sign In With Google</p> */}
                         </div>
                     </form>
                 </div>
