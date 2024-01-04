@@ -4,9 +4,12 @@ import { useForm } from "react-hook-form"
 import useAuth from "../../../Hooks/auth/useAuth";
 import Swal from "sweetalert2";
 import { updateProfile } from "firebase/auth";
+import useAxiospublic from '../../../Hooks/axiosPublic/useAxiosPublic'
 
 const SignUp = () => {
     const { signUp, auth } = useAuth()
+    // define axios public
+    const axiosPublic = useAxiospublic()
     // define imgbb hostiong key
     const imgHostionKey = import.meta.env.VITE_IMAGE_HOSTING_KEY
     // define hosting api
@@ -35,16 +38,41 @@ const SignUp = () => {
         const userPass = data?.password;
         const userImg = imgurl?.data?.data?.url_viewer;
         //signup userr
+        const userInFo = { userName, userEmail, userPass, userImg }
         signUp(userEmail, userPass)
             .then(res => {
                 //update user profile
+
                 console.log(res)
                 updateProfile(auth.currentUser, {
                     displayName: `${userName}`, photoURL: `${userImg}`
                 })
                     .then(res => {
-                        //reset from
-                        // console.log(res)
+                        // post user data
+                        axiosPublic.post('/users', userInFo)
+                            .then(res => {
+                                if (res?.data?.insertedId) {
+                                    Swal.fire({
+                                        position: "center",
+                                        icon: "success",
+                                        title: "SuccessFully you create a account",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            }
+                            )
+                            .catch(error => {
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "error",
+                                    title: "something is wrong please try again",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            })
+
+
                         reset({
                             name: null,
                             email: null,
@@ -52,13 +80,7 @@ const SignUp = () => {
                             image: null
 
                         })
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "SuccessFully you create a account",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+
                     }).catch(error => {
                         const errorMessage = error.message;
                         // console.log(errorMessage)
